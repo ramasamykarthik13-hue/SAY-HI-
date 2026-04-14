@@ -1,70 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Say Hi</title>
-  <!-- Bootstrap 5 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
-  <!-- Custom styles (overrides Bootstrap where needed) -->
-  <link rel="stylesheet" href="style.css" />
-  <!-- Mobile & tablet responsive (Bootstrap-integrated) -->
-  <link rel="stylesheet" href="mobile.css" />
-  <!-- Voice calling UI -->
-  <link rel="stylesheet" href="call.css" />
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="mobile.css"/>
+  <link rel="stylesheet" href="call.css"/>
+  <link rel="stylesheet" href="features.css"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- AUTH SCREEN -->
-  <div id="authScreen">
-    <div class="auth-bg">
-      <div class="auth-blob blob1"></div>
-      <div class="auth-blob blob2"></div>
-      <div class="auth-blob blob3"></div>
+<!-- ============================================================ AUTH SCREEN -->
+<div id="authScreen">
+  <div class="auth-bg">
+    <div class="auth-blob blob1"></div>
+    <div class="auth-blob blob2"></div>
+    <div class="auth-blob blob3"></div>
+  </div>
+  <div class="auth-card">
+    <div class="auth-logo">
+      <img src="logo.png" alt="Say Hi" class="auth-logo-img"/>
+      <p class="auth-tagline">Simple. Fast. Private.</p>
     </div>
-    <div class="auth-card">
-      <div class="auth-logo">
-        <img src="logo.png" alt="Say Hi" class="auth-logo-img" />
-        <p class="auth-tagline">Simple. Fast. Private.</p>
-      </div>
 
-      <div class="auth-fields">
-        <div class="field-group">
-          <label for="usernameInput">Username</label>
-          <input id="usernameInput" type="text" placeholder="Enter your username" autocomplete="off" spellcheck="false"/>
-        </div>
-        <div class="field-group">
-          <label for="passwordInput">Password</label>
-          <input id="passwordInput" type="password" placeholder="Enter your password"/>
-        </div>
-        <div id="authError" class="auth-error"></div>
-        <div class="auth-buttons">
-          <button id="loginBtn" class="btn-primary">Login</button>
-          <button id="signupBtn" class="btn-secondary">Sign Up</button>
-        </div>
+    <!-- Emoji Picker -->
+    <div class="emoji-section">
+      <div class="emoji-label">Choose your profile emoji</div>
+      <div id="emojiPickerWrap" class="emoji-picker-wrap"></div>
+    </div>
+
+    <div class="auth-fields">
+      <div class="field-group">
+        <label for="usernameInput">Username</label>
+        <input id="usernameInput" type="text" placeholder="Enter your username" autocomplete="off" spellcheck="false"/>
+      </div>
+      <div class="field-group">
+        <label for="passwordInput">Password</label>
+        <input id="passwordInput" type="password" placeholder="Enter your password"/>
+      </div>
+      <div id="authError" class="auth-error"></div>
+      <div class="auth-buttons">
+        <button id="loginBtn" class="btn-primary">Login</button>
+        <button id="signupBtn" class="btn-secondary">Sign Up</button>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- MAIN APP -->
-  <div id="app" style="display:none">
+<!-- ============================================================ MAIN APP -->
+<div id="app" style="display:none">
 
-    <!-- iPad overlay (tapping closes sidebar) -->
-    <div id="sidebarOverlay"></div>
+  <div id="sidebarOverlay"></div>
 
-    <!-- SIDEBAR -->
-    <div id="sidebar">
-      <div id="sidebarBrand">
-        <img src="logo.png" alt="Say Hi" class="sidebar-logo-img" />
+  <!-- SIDEBAR -->
+  <div id="sidebar">
+    <div id="sidebarBrand">
+      <img src="logo.png" alt="Say Hi" class="sidebar-logo-img"/>
+    </div>
+    <div id="sidebarHeader">
+      <div class="sidebar-user">
+        <div class="user-avatar" id="currentUserAvatar"></div>
+        <span id="currentUsername"></span>
       </div>
-      <div id="sidebarHeader">
-        <div class="sidebar-user">
-          <div class="user-avatar" id="currentUserAvatar"></div>
-          <span id="currentUsername"></span>
-        </div>
-        <button id="logoutBtn" title="Logout">
+      <div class="sidebar-actions">
+        <!-- New Group button -->
+        <button id="newGroupBtn" title="New Group" class="icon-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            <line x1="20" y1="8" x2="20" y2="14"/><line x1="17" y1="11" x2="23" y2="11"/>
+          </svg>
+        </button>
+        <button id="logoutBtn" title="Logout" class="icon-btn">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
             <polyline points="16 17 21 12 16 7"/>
@@ -72,171 +85,154 @@
           </svg>
         </button>
       </div>
+    </div>
 
-      <div class="search-wrap">
-        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    <div class="search-wrap">
+      <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input id="searchInput" type="text" placeholder="Search users…" autocomplete="off" spellcheck="false"/>
+    </div>
+
+    <div id="searchResults" class="hidden"></div>
+    <div id="chatList"></div>
+  </div>
+
+  <!-- CHAT WINDOW -->
+  <div id="chatWindow">
+    <div id="emptyState">
+      <div class="empty-icon"><img src="logo.png" alt="Say Hi" class="empty-logo-img"/></div>
+      <h2>Say Hi to someone</h2>
+      <p>Search for a user or create a group</p>
+    </div>
+
+    <div id="chatHeader" class="hidden">
+      <button id="backBtn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="chat-header-avatar" id="chatHeaderAvatar"></div>
+      <div class="chat-header-info">
+        <span id="chatHeaderName"></span>
+        <span id="chatHeaderSub" class="chat-sub"></span>
+      </div>
+      <!-- DM voice call -->
+      <button id="callBtn" title="Voice call" style="display:none">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l1.62-1.62a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
         </svg>
-        <input id="searchInput" type="text" placeholder="Search users…" autocomplete="off" spellcheck="false"/>
-      </div>
-
-      <div id="searchResults" class="hidden"></div>
-      <div id="chatList"></div>
+      </button>
+      <!-- Group voice call -->
+      <button id="groupCallBtn" title="Group voice call" style="display:none">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l1.62-1.62a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+          <text x="17" y="7" font-size="7" fill="currentColor" stroke="none">+</text>
+        </svg>
+      </button>
     </div>
 
-    <!-- CHAT WINDOW -->
-    <div id="chatWindow">
-      <div id="emptyState">
-        <div class="empty-icon">
-          <img src="logo.png" alt="Say Hi" class="empty-logo-img" />
-        </div>
-        <h2>Say Hi to someone</h2>
-        <p>Search for a user to start a conversation</p>
+    <!-- Typing indicator -->
+    <div id="typingIndicator" style="display:none">
+      <div class="typing-dots">
+        <span></span><span></span><span></span>
       </div>
-
-      <div id="chatHeader" class="hidden">
-        <!-- Back button: mobile/tablet only -->
-        <button id="backBtn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 18 9 12 15 6"/>
-          </svg>
-        </button>
-        <div class="chat-header-avatar" id="chatHeaderAvatar"></div>
-        <div class="chat-header-info">
-          <span id="chatHeaderName"></span>
-          <span class="chat-status">online</span>
-        </div>
-        <!-- Voice call button -->
-        <button id="callBtn" title="Voice call">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l1.62-1.62a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
-          </svg>
-        </button>
-      </div>
-
-      <div id="messages"></div>
-
-      <div id="messageInputArea" class="hidden">
-        <input id="messageInput" type="text" placeholder="Type a message…" autocomplete="off" spellcheck="false"/>
-        <button id="sendBtn" title="Send">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="22" y1="2" x2="11" y2="13"/>
-            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-          </svg>
-        </button>
-      </div>
+      <span class="typing-text">Someone typing…</span>
     </div>
 
-  </div>
+    <div id="messages"></div>
 
-  <!-- ============================================================
-       OUTGOING CALL SCREEN
-       ============================================================ -->
-  <div id="outgoingCallScreen" class="call-overlay">
-    <div class="call-avatar-wrap">
-      <div class="call-avatar" id="outgoingCallAvatar"></div>
-    </div>
-    <div class="call-name" id="outgoingCallName"></div>
-    <div class="call-status" id="outgoingCallStatus">Calling…</div>
-    <div class="call-buttons">
-      <button class="call-btn" id="cancelCallBtn">
-        <div class="call-btn-icon end">
-          <!-- end icon -->
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="0">
-            <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
-          </svg>
-        </div>
-        <span class="call-btn-label">Cancel</span>
+    <div id="messageInputArea" class="hidden">
+      <input id="messageInput" type="text" placeholder="Type a message…" autocomplete="off" spellcheck="false"/>
+      <button id="sendBtn" title="Send">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
       </button>
     </div>
   </div>
+</div>
 
-  <!-- ============================================================
-       INCOMING CALL SCREEN
-       ============================================================ -->
-  <div id="incomingCallScreen" class="call-overlay">
-    <div class="call-avatar-wrap">
-      <!-- ripple rings -->
-      <div class="call-ring"></div>
-      <div class="call-ring"></div>
-      <div class="call-ring"></div>
-      <div class="call-avatar" id="incomingCallAvatar"></div>
-    </div>
-    <div class="call-name" id="incomingCallName"></div>
-    <div class="call-status">Incoming voice call…</div>
-    <div class="incoming-buttons">
-      <!-- Decline -->
-      <button class="call-btn" id="declineCallBtn">
-        <div class="call-btn-icon end">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="white">
-            <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
-          </svg>
-        </div>
-        <span class="call-btn-label">Decline</span>
-      </button>
-      <!-- Accept -->
-      <button class="call-btn" id="acceptCallBtn">
-        <div class="call-btn-icon accept">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="white">
-            <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
-          </svg>
-        </div>
-        <span class="call-btn-label">Accept</span>
-      </button>
-    </div>
+<!-- ============================================================ OUTGOING CALL -->
+<div id="outgoingCallScreen" class="call-overlay">
+  <div class="call-avatar-wrap">
+    <div class="call-avatar" id="outgoingCallAvatar"></div>
   </div>
-
-  <!-- ============================================================
-       ACTIVE CALL SCREEN
-       ============================================================ -->
-  <div id="activeCallScreen" class="call-overlay">
-    <div class="call-avatar-wrap">
-      <div class="call-avatar" id="activeCallAvatar"></div>
-    </div>
-    <div class="call-name" id="activeCallName"></div>
-    <div class="call-timer" id="activeCallTimer">00:00</div>
-    <div class="active-call-buttons">
-      <!-- Mute -->
-      <button class="call-btn" id="muteBtn">
-        <div class="call-btn-icon mute">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-            <line x1="12" y1="19" x2="12" y2="23"/>
-            <line x1="8" y1="23" x2="16" y2="23"/>
-          </svg>
-        </div>
-        <span class="call-btn-label">Mute</span>
-      </button>
-      <!-- End -->
-      <button class="call-btn" id="endCallBtn">
-        <div class="call-btn-icon end">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="white">
-            <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
-          </svg>
-        </div>
-        <span class="call-btn-label">End</span>
-      </button>
-      <!-- Speaker -->
-      <button class="call-btn" id="speakerBtn">
-        <div class="call-btn-icon speaker">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-          </svg>
-        </div>
-        <span class="call-btn-label">Speaker</span>
-      </button>
-    </div>
+  <div class="call-name" id="outgoingCallName"></div>
+  <div class="call-status" id="outgoingCallStatus">Calling…</div>
+  <div class="call-buttons">
+    <button class="call-btn" id="cancelCallBtn">
+      <div class="call-btn-icon end">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+      </div>
+      <span class="call-btn-label">Cancel</span>
+    </button>
   </div>
+</div>
 
-  <!-- CALL TOAST -->
-  <div id="callToast"></div>
+<!-- ============================================================ INCOMING CALL -->
+<div id="incomingCallScreen" class="call-overlay">
+  <div class="call-avatar-wrap">
+    <div class="call-ring"></div><div class="call-ring"></div><div class="call-ring"></div>
+    <div class="call-avatar" id="incomingCallAvatar"></div>
+  </div>
+  <div class="call-name" id="incomingCallName"></div>
+  <div class="call-status">Incoming voice call…</div>
+  <div class="incoming-buttons">
+    <button class="call-btn" id="declineCallBtn">
+      <div class="call-btn-icon end">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+      </div>
+      <span class="call-btn-label">Decline</span>
+    </button>
+    <button class="call-btn" id="acceptCallBtn">
+      <div class="call-btn-icon accept">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+      </div>
+      <span class="call-btn-label">Accept</span>
+    </button>
+  </div>
+</div>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Firebase + App -->
-  <script type="module" src="script.js"></script>
+<!-- ============================================================ ACTIVE CALL -->
+<div id="activeCallScreen" class="call-overlay">
+  <div class="call-avatar-wrap">
+    <div class="call-avatar" id="activeCallAvatar"></div>
+  </div>
+  <div class="call-name" id="activeCallName"></div>
+  <div class="call-timer" id="activeCallTimer">00:00</div>
+  <div class="active-call-buttons">
+    <button class="call-btn" id="muteBtn">
+      <div class="call-btn-icon mute">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
+        </svg>
+      </div>
+      <span class="call-btn-label">Mute</span>
+    </button>
+    <button class="call-btn" id="endCallBtn">
+      <div class="call-btn-icon end">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+      </div>
+      <span class="call-btn-label">End</span>
+    </button>
+    <button class="call-btn" id="speakerBtn">
+      <div class="call-btn-icon speaker">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+        </svg>
+      </div>
+      <span class="call-btn-label">Speaker</span>
+    </button>
+  </div>
+</div>
+
+<div id="callToast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module" src="script.js"></script>
 </body>
 </html>
