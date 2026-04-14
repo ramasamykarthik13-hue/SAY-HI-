@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="style.css" />
   <!-- Mobile & tablet responsive (Bootstrap-integrated) -->
   <link rel="stylesheet" href="mobile.css" />
+  <!-- Voice calling UI -->
+  <link rel="stylesheet" href="call.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 </head>
@@ -104,6 +106,12 @@
           <span id="chatHeaderName"></span>
           <span class="chat-status">online</span>
         </div>
+        <!-- Voice call button -->
+        <button id="callBtn" title="Voice call">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l1.62-1.62a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+        </button>
       </div>
 
       <div id="messages"></div>
@@ -121,9 +129,114 @@
 
   </div>
 
+  <!-- ============================================================
+       OUTGOING CALL SCREEN
+       ============================================================ -->
+  <div id="outgoingCallScreen" class="call-overlay">
+    <div class="call-avatar-wrap">
+      <div class="call-avatar" id="outgoingCallAvatar"></div>
+    </div>
+    <div class="call-name" id="outgoingCallName"></div>
+    <div class="call-status" id="outgoingCallStatus">Calling…</div>
+    <div class="call-buttons">
+      <button class="call-btn" id="cancelCallBtn">
+        <div class="call-btn-icon end">
+          <!-- end icon -->
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="0">
+            <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+          </svg>
+        </div>
+        <span class="call-btn-label">Cancel</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       INCOMING CALL SCREEN
+       ============================================================ -->
+  <div id="incomingCallScreen" class="call-overlay">
+    <div class="call-avatar-wrap">
+      <!-- ripple rings -->
+      <div class="call-ring"></div>
+      <div class="call-ring"></div>
+      <div class="call-ring"></div>
+      <div class="call-avatar" id="incomingCallAvatar"></div>
+    </div>
+    <div class="call-name" id="incomingCallName"></div>
+    <div class="call-status">Incoming voice call…</div>
+    <div class="incoming-buttons">
+      <!-- Decline -->
+      <button class="call-btn" id="declineCallBtn">
+        <div class="call-btn-icon end">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="white">
+            <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+          </svg>
+        </div>
+        <span class="call-btn-label">Decline</span>
+      </button>
+      <!-- Accept -->
+      <button class="call-btn" id="acceptCallBtn">
+        <div class="call-btn-icon accept">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="white">
+            <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+          </svg>
+        </div>
+        <span class="call-btn-label">Accept</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       ACTIVE CALL SCREEN
+       ============================================================ -->
+  <div id="activeCallScreen" class="call-overlay">
+    <div class="call-avatar-wrap">
+      <div class="call-avatar" id="activeCallAvatar"></div>
+    </div>
+    <div class="call-name" id="activeCallName"></div>
+    <div class="call-timer" id="activeCallTimer">00:00</div>
+    <div class="active-call-buttons">
+      <!-- Mute -->
+      <button class="call-btn" id="muteBtn">
+        <div class="call-btn-icon mute">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="23"/>
+            <line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+        </div>
+        <span class="call-btn-label">Mute</span>
+      </button>
+      <!-- End -->
+      <button class="call-btn" id="endCallBtn">
+        <div class="call-btn-icon end">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="white">
+            <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+          </svg>
+        </div>
+        <span class="call-btn-label">End</span>
+      </button>
+      <!-- Speaker -->
+      <button class="call-btn" id="speakerBtn">
+        <div class="call-btn-icon speaker">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          </svg>
+        </div>
+        <span class="call-btn-label">Speaker</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- CALL TOAST -->
+  <div id="callToast"></div>
+
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Firebase -->
+  <!-- Firebase + App -->
   <script type="module" src="script.js"></script>
 </body>
 </html>

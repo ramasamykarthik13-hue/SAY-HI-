@@ -13,6 +13,9 @@ import {
   orderByChild
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
+// ===================== CALLING MODULE =====================
+import { initCalling, setCallTarget } from "./call.js";
+
 // ===================== FIREBASE CONFIG =====================
 const firebaseConfig = {
   apiKey: "AIzaSyCy5BpI0KalmsAF71wW7v4rrKcuskmfixU",
@@ -138,6 +141,8 @@ function showApp() {
   currentUsernameEl.textContent = currentUser.username;
   setAvatar(currentUserAvatar, currentUser.username);
   loadChatList();
+  // Start listening for incoming calls
+  initCalling(db, currentUser);
 }
 
 function showAuth() {
@@ -475,6 +480,8 @@ function openChat(chatId) {
   if (activeOtherUser) {
     chatHeaderName.textContent = activeOtherUser.username;
     setAvatar(chatHeaderAvatar, activeOtherUser.username);
+    // Tell calling module who the call target is
+    setCallTarget(activeOtherUser);
   }
 
   // Load messages in real-time
